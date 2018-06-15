@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.*;
 import org.openqa.selenium.*;
 
 public class TestSelenium {
@@ -46,22 +45,22 @@ public class TestSelenium {
         searchProject();
         reportIssue();
         blockEnterReportDetails();
-        blockFillIN();
-        blockFullDescription();
+        blockFillIN("Web", "Wind", "x64");
+        blockFullDescription("Block", "описание дефекта", "Взять и починить.");
         ButtonSubmitReport();
 
     }
 
-    public void blockFullDescription() {
+    public void blockFullDescription(String defectType, String defectDescription, String defectHowToFix) {
         driver.findElement(By.name("summary")).click();
         driver.findElement(By.name("summary")).clear();
-        driver.findElement(By.name("summary")).sendKeys("Block");
+        driver.findElement(By.name("summary")).sendKeys(defectType);
         driver.findElement(By.name("description")).click();
         driver.findElement(By.name("description")).clear();
-        driver.findElement(By.name("description")).sendKeys("описание дефекта");
+        driver.findElement(By.name("description")).sendKeys(defectDescription);
         driver.findElement(By.name("steps_to_reproduce")).click();
         driver.findElement(By.name("steps_to_reproduce")).clear();
-        driver.findElement(By.name("steps_to_reproduce")).sendKeys("Взять и починить.");
+        driver.findElement(By.name("steps_to_reproduce")).sendKeys(defectHowToFix);
     }
 
     public void ButtonSubmitReport() {
@@ -69,7 +68,7 @@ public class TestSelenium {
     }
 
     public void blockEnterReportDetails() {
-        selectCategory();
+        selectCategory("category_id");
         if (!driver.findElement(By.xpath("//div[3]/form/table/tbody/tr[3]/td[2]/select//option[1]")).isSelected()) {
             driver.findElement(By.xpath("//div[3]/form/table/tbody/tr[3]/td[2]/select//option[1]")).click();
         }
@@ -81,10 +80,10 @@ public class TestSelenium {
         }
     }
 
-    public void selectCategory() {
+    public void selectCategory(String idCategory) {
 
 
-        Select select = new Select(driver.findElement(By.name("category_id")));
+        Select select = new Select(driver.findElement(By.name(idCategory)));
         select.selectByVisibleText("[All Projects] General");
 
 
@@ -105,16 +104,16 @@ public class TestSelenium {
         }
     }
 
-    public void blockFillIN() {
+    public void blockFillIN(String platformName, String osName, String osVersionName) {
         driver.findElement(By.id("platform")).click();
         driver.findElement(By.id("platform")).clear();
-        driver.findElement(By.id("platform")).sendKeys("Web");
+        driver.findElement(By.id("platform")).sendKeys(platformName);
         driver.findElement(By.id("os")).click();
         driver.findElement(By.id("os")).clear();
-        driver.findElement(By.id("os")).sendKeys("Wind");
+        driver.findElement(By.id("os")).sendKeys(osName);
         driver.findElement(By.id("os_build")).click();
         driver.findElement(By.id("os_build")).clear();
-        driver.findElement(By.id("os_build")).sendKeys("x64");
+        driver.findElement(By.id("os_build")).sendKeys(osVersionName);
         if (!driver.findElement(By.xpath("//div[3]/form/table/tbody/tr[8]/td[2]/select//option[3]")).isSelected()) {
             driver.findElement(By.xpath("//div[3]/form/table/tbody/tr[8]/td[2]/select//option[3]")).click();
         }
